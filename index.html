@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Physics Game</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cannon@0.6.2/build/cannon.min.js"></script>
+    <script src="physics.js"></script>
+    <script src="game.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <div id="scoreboard" class="info-panel">
+        <div id="score-display">Score: <span id="current-score">0</span></div>
+        <div id="tries-display">Tries: <span id="current-tries">0</span></div>
+    </div>
+    <a-scene embedded arjs="trackingMethod: best; debugUIEnabled: false;">
+        <!-- Camera with AR capabilities -->
+        <a-entity camera></a-entity>
+        
+        <!-- Target marker - this is where objects will be placed in AR -->
+        <a-marker preset="hiro">
+            <!-- Cannon Base -->
+            <a-entity id="cannon" position="0 0 0">
+                <!-- Main Base -->
+                <a-box position="0 0.05 0" width="0.5" height="0.1" depth="0.5" color="#8B4513"></a-box>
+                
+                <!-- Cannon Mount -->
+                <a-cylinder position="0 0.15 0" radius="0.1" height="0.2" color="#654321"></a-cylinder>
+                
+                <!-- Cannon Barrel Group (will rotate) -->
+                <a-entity id="barrel-group" position="0 0.25 0" rotation="0 0 0">
+                    <!-- Barrel Support -->
+                    <a-box position="0 0.1 0" width="0.1" height="0.2" depth="0.1" color="#8B4513"></a-box>
+                    
+                    <!-- Main Barrel -->
+                    <a-cylinder position="0 0.2 0" radius="0.05" height="0.4" color="#808080"></a-cylinder>
+                    
+                    <!-- Barrel Tip -->
+                    <a-cylinder position="0 0.4 0" radius="0.06" height="0.1" color="#808080"></a-cylinder>
+                </a-entity>
+            </a-entity>
+        </a-marker>
+    </a-scene>
+
+    <!-- UI Overlay -->
+    <div id="ui-container">
+        <div id="spring-controls">
+            <label for="spring-constant">Spring Constant (k):</label>
+            <input type="range" id="spring-constant" min="1" max="50" value="10">
+            <span id="k-value">10</span>
+        </div>
+        <div id="angle-controls">
+            <label for="launch-angle">Launch Angle (degrees):</label>
+            <input type="range" id="launch-angle" min="0" max="90" value="45">
+            <span id="angle-value">45</span>
+        </div>
+        <div id="rotation-controls">
+            <label for="launch-rotation">Rotation (degrees):</label>
+            <input type="range" id="launch-rotation" min="0" max="360" value="0">
+            <span id="rotation-value">0</span>
+        </div>
+        <button id="launch-button">Launch!</button>
+    </div>
+</body>
+</html>

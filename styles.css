@@ -1,0 +1,67 @@
+#ui-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    z-index: 1000;
+}
+
+#spring-controls, #angle-controls {
+    margin-bottom: 10px;
+}
+
+#spring-controls label, #angle-controls label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#spring-constant, #launch-angle {
+    width: 200px;
+    margin-right: 10px;
+}
+
+#k-value, #angle-value {
+    display: inline-block;
+    min-width: 30px;
+}
+
+#launch-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#launch-button:hover {
+    background: #45a049;
+}
+
+.info-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 1000;
+    font-size: 18px;
+}
+
+#score-display, #tries-display {
+    margin: 5px 0;
+}
+
+#current-score, #current-tries {
+    font-weight: bold;
+    color: #4CAF50;
+}
