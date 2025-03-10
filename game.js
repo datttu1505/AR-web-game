@@ -128,7 +128,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const vz = initialVelocity * Math.cos(launchRadians) * Math.sin(rotationRadians);
         
         // Create projectile
-        const radius = 0.1;
+        const radius = 0.07; // Reduced from 0.1 by 30%
         const projectileShape = new CANNON.Sphere(radius);
         const projectileBody = new CANNON.Body({
             mass: mass,
@@ -145,7 +145,7 @@ window.addEventListener('DOMContentLoaded', () => {
         
         // Create visual representation in AR
         const projectileEntity = document.createElement('a-sphere');
-        projectileEntity.setAttribute('radius', 0.1);
+        projectileEntity.setAttribute('radius', 0.07); // Reduced from 0.1 by 30%
         projectileEntity.setAttribute('color', 'red');
         projectileEntity.setAttribute('position', '0 0.5 0'); // Start at cannon tip
         
@@ -246,10 +246,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     console.log("Hit target!");
                     gameState.score += 10;
                     
-                    // Randomly generate new position
-                    const newX = Math.random() * 2 - 1; // Random between -1 and 1
+                    // Randomly generate new position with increased distance (multiplied by 10)
+                    const newX = (Math.random() * 20 - 10); // Random between -10 and 10
                     const newY = 0.1; // Keep at same height
-                    const newZ = Math.random() * 2 - 1; // Random between -1 and 1
+                    const newZ = (Math.random() * 20 - 10); // Random between -10 and 10
                     
                     // Update target's visual position
                     target.visual.setAttribute('position', `${newX} ${newY} ${newZ}`);
