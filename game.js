@@ -1,5 +1,17 @@
 // Main game controller for AR Physics Game
 window.addEventListener('DOMContentLoaded', () => {
+    // Hide loading screen when scene is ready
+    const scene = document.querySelector('a-scene');
+    const loadingScreen = document.getElementById('loading-screen');
+    
+    if (scene.hasLoaded) {
+        loadingScreen.style.display = 'none';
+    } else {
+        scene.addEventListener('loaded', function () {
+            loadingScreen.style.display = 'none';
+        });
+    }
+    
     // Setup UI controls
     const springConstantSlider = document.getElementById('spring-constant');
     const kValueDisplay = document.getElementById('k-value');

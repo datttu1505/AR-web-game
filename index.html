@@ -2,7 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>AR Physics Game</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -12,6 +14,28 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body style="margin: 0; overflow: hidden;">
+    <div id="loading-screen" class="fullscreen-overlay">
+        <div class="loading-content">
+            <h2>Loading AR Experience</h2>
+            <p>Please wait while we initialize the game...</p>
+            <div class="spinner"></div>
+        </div>
+    </div>
+    
+    <div id="instruction-overlay" class="fullscreen-overlay">
+        <div class="instruction-content">
+            <h2>How to Play</h2>
+            <ol>
+                <li>Print or display the Hiro marker (<a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/HIRO.jpg" target="_blank">Get Marker</a>)</li>
+                <li>Allow camera access when prompted</li>
+                <li>Point your camera at the Hiro marker</li>
+                <li>Use the sliders to adjust power and angle</li>
+                <li>Tap Launch to fire!</li>
+            </ol>
+            <button onclick="this.parentElement.parentElement.style.display='none'">Got it!</button>
+        </div>
+    </div>
+    
     <div id="scoreboard" class="info-panel">
         <div id="score-display">Score: <span id="current-score">0</span></div>
         <div id="tries-display">Tries: <span id="current-tries">0</span></div>
