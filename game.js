@@ -29,7 +29,10 @@ window.addEventListener('DOMContentLoaded', () => {
         projectiles: [],
         targets: [],
         score: 0,
-        tries: 0
+        tries: 0,
+        mode: 'normal', // Add game mode
+        targetDistance: 0,
+        correctSpringConstant: 0
     };
     
     // Create physics engine
@@ -38,6 +41,31 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // Setup A-Frame components
     setupARComponents();
+    
+    // Setup mode selector
+    const modeSelector = document.getElementById('game-mode');
+    const calculationUI = document.getElementById('calculation-ui');
+    const normalControls = document.getElementById('normal-controls');
+    const springConstantInput = document.getElementById('spring-constant-input');
+    const checkAnswerButton = document.getElementById('check-answer');
+    const feedbackMessage = document.getElementById('feedback-message');
+
+    modeSelector.addEventListener('change', (e) => {
+        gameState.mode = e.target.value;
+        if (gameState.mode === 'calculation') {
+            calculationUI.style.display = 'block';
+            normalControls.style.display = 'none';
+            // Set fixed angles for calculation mode
+            gameState.springAngle = 45;
+            gameState.rotationAngle = 0;
+            // Update visuals with fixed angles
+            updateVisuals();
+            generateCalculationProblem();
+        } else {
+            calculationUI.style.display = 'none';
+            normalControls.style.display = 'block';
+        }
+    });
     
     // Update score display
     function updateScoreDisplay() {
@@ -241,6 +269,10 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // Check for collisions with targets
     function checkCollisions() {
+        if (gameState.mode === 'calculation') {
+            return; // Skip collision detection in calculation mode
+        }
+        
         gameState.projectiles.forEach(projectile => {
             gameState.targets.forEach(target => {
                 // Basic collision detection
@@ -383,4 +415,61 @@ window.addEventListener('DOMContentLoaded', () => {
         const marker = document.querySelector('a-marker');
         marker.appendChild(line);
     }
+
+    // Generate a new calculation problem
+    function generateCalculationProblem() {
+        // Generate random distance between 5 and 15 meters
+        gameState.targetDistance = (Math.random() * 10 + 5).toFixed(2);
+        
+        // Set fixed values for the problem
+        const mass = 0.5; // kg
+        const compression = 0.3; // meters
+        const launchAngle = 45; // degrees (fixed angle)
+        
+        // Calculate the required initial velocity using projectile motion equations
+        const g = 9.81; // m/s^2
+        const launchRadians = launchAngle * (Math.PI / 180);
+        const v0 = Math.sqrt((gameState.targetDistance * g) / Math.sin(2 * launchRadians));
+        
+        // Calculate the required spring constant using spring force equation
+        // F = kx = mv^2/(2x)
+        gameState.correctSpringConstant = (mass * Math.pow(v0, 2)) / (2 * compression);
+        
+        // Update UI
+        document.getElementById('target-distance').textContent = gameState.targetDistance;
+        document.getElementById('projectile-mass').textContent = mass;
+        
+        // Clear previous feedback
+        feedbackMessage.textContent = '';
+        feedbackMessage.className = '';
+        springConstantInput.value = '';
+
+        // Update barrel position to fixed 45-degree angle
+        updateVisuals();
+    }
+
+    // Check the user's answer
+    checkAnswerButton.addEventListener('click', () => {
+        const userAnswer = parseFloat(springConstantInput.value);
+        const correctAnswer = gameState.correctSpringConstant;
+        
+        // Allow for a 5% margin of error
+        const errorMargin = correctAnswer * 0.05;
+        const isCorrect = Math.abs(userAnswer - correctAnswer) <= errorMargin;
+        
+        feedbackMessage.textContent = isCorrect 
+            ? 'Correct! The spring constant will launch the projectile to the target.'
+            : `Incorrect. Try again! Hint: The spring constant should be around ${correctAnswer.toFixed(1)} N/m`;
+        
+        feedbackMessage.className = isCorrect ? 'correct' : 'incorrect';
+        
+        if (isCorrect) {
+            gameState.score += 1;
+            updateScoreDisplay();
+            setTimeout(generateCalculationProblem, 2000);
+        }
+        
+        gameState.tries += 1;
+        updateScoreDisplay();
+    });
 });

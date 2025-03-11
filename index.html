@@ -74,22 +74,47 @@
 
     <!-- UI Overlay -->
     <div id="ui-container">
-        <div id="spring-controls">
-            <label for="spring-constant">Spring Constant (k):</label>
-            <input type="range" id="spring-constant" min="1" max="50" value="10">
-            <span id="k-value">10</span>
+        <div id="mode-selector">
+            <label for="game-mode">Game Mode:</label>
+            <select id="game-mode">
+                <option value="normal">Normal Mode</option>
+                <option value="calculation">Spring Calculation Mode</option>
+            </select>
         </div>
-        <div id="angle-controls">
-            <label for="launch-angle">Launch Angle (degrees):</label>
-            <input type="range" id="launch-angle" min="0" max="90" value="45">
-            <span id="angle-value">45</span>
+
+        <div id="calculation-ui" style="display: none;">
+            <div class="physics-info">
+                <p>Target Distance: <span id="target-distance">0</span> meters</p>
+                <p>Projectile Mass: <span id="projectile-mass">0.5</span> kg</p>
+                <p>Launch Angle: 45° (fixed)</p>
+                <p>Rotation: 0° (fixed)</p>
+            </div>
+            <div class="spring-calc">
+                <label for="spring-constant-input">Enter Spring Constant (N/m):</label>
+                <input type="number" id="spring-constant-input" min="0" step="0.1">
+                <button id="check-answer">Check Answer</button>
+                <p id="feedback-message"></p>
+            </div>
         </div>
-        <div id="rotation-controls">
-            <label for="launch-rotation">Rotation (degrees):</label>
-            <input type="range" id="launch-rotation" min="0" max="360" value="0">
-            <span id="rotation-value">0</span>
+
+        <div id="normal-controls">
+            <div id="spring-controls">
+                <label for="spring-constant">Spring Constant (k):</label>
+                <input type="range" id="spring-constant" min="1" max="50" value="10">
+                <span id="k-value">10</span>
+            </div>
+            <div id="angle-controls">
+                <label for="launch-angle">Launch Angle (degrees):</label>
+                <input type="range" id="launch-angle" min="0" max="90" value="45">
+                <span id="angle-value">45</span>
+            </div>
+            <div id="rotation-controls">
+                <label for="launch-rotation">Rotation (degrees):</label>
+                <input type="range" id="launch-rotation" min="0" max="360" value="0">
+                <span id="rotation-value">0</span>
+            </div>
+            <button id="launch-button">Launch!</button>
         </div>
-        <button id="launch-button">Launch!</button>
     </div>
 </body>
 </html>
